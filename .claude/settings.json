@@ -1,0 +1,40 @@
+{
+  "permissions": {
+    "deny": [
+      "Bash(git push --force:*)",
+      "Bash(git push -f:*)",
+      "Bash(git push --force-with-lease:*)",
+      "Bash(git add -A:*)",
+      "Bash(git add --all:*)",
+      "Bash(git add -u:*)",
+      "Bash(git add .)",
+      "Bash(git add ./)",
+      "Bash(git commit --no-verify:*)",
+      "Bash(git commit -n:*)",
+      "Bash(git commit -a:*)",
+      "Bash(git commit -am:*)",
+      "Bash(git commit --all:*)",
+      "Bash(git reset --hard:*)",
+      "Bash(git clean:*)",
+      "Bash(git stash:*)",
+      "Bash(git checkout -- .)",
+      "Bash(git checkout .)",
+      "Bash(git restore .)",
+      "Bash(git branch -D:*)",
+      "Bash(git rebase:*)",
+      "Bash(rm -rf:*)",
+      "Bash(rm -fr:*)",
+      "Bash(rm -r -f:*)",
+      "Bash(rm -r:*)",
+      "Read(~/MechaVanguard/**)",
+      "Read(~/ZeroStudyRPG/**)",
+      "Read(~/Luvern/**)",
+      "Edit(~/MechaVanguard/**)",
+      "Edit(~/ZeroStudyRPG/**)",
+      "Edit(~/Luvern/**)",
+      "Bash(cd ~/MechaVanguard*)",
+      "Bash(cd ~/ZeroStudyRPG*)",
+      "Bash(cd ~/Luvern*)"
+    ]
+  }
+}

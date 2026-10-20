@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+# 커밋 전 자동 검사 — 이름·폴더·.meta 짝·코드 이름 규칙
+# 오류가 있으면 커밋을 막는다. 규칙: docs/conventions/
+root="$(git rev-parse --show-toplevel)"
+cd "$root" || exit 1
+
+PY="$(command -v python3 || true)"
+if [ -z "$PY" ]; then
+  if [ -n "${LOOP_LAP:-}" ]; then
+    echo "✖ 커밋 거절: python3 가 없어 검사를 못 함 (루프는 검사 없이 커밋 금지)"
+    exit 1
+  fi
+  echo "⚠ python3 가 없어 검사를 건너뜀 — 사람 커밋이라 통과시킴"
+  exit 0
+fi
+
+# 바뀐 파일 중 루프가 건드리면 안 되는 파일 경고 (씬·에셋 확장자: Unity/Unreal/Godot)
+if [ -n "${LOOP_LAP:-}" ]; then
+  if git diff --cached --name-only | grep -Eq '\.(unity|prefab|uasset|umap|tscn|tres)$'; then
+    echo "ℹ 씬/에셋 변경 포함 — 에디터(엔진 MCP)로 바꾼 것인지 STATUS 에 적을 것"
+  fi
+fi
+
+# 루프 커밋: STATUS "지금 상태" 가 일지처럼 불어나면 거절한다
+# 왜: 일꾼이 매 바퀴 제일 먼저 읽는 자리다. 한 프로젝트에서 300줄(13만 글자)까지 불어 매 바퀴가 그걸 읽고 시작했다
+if [ -n "${LOOP_LAP:-}" ] && [ -f loop/lap_audit.py ] && git diff --cached --name-only | grep -qx 'docs/STATUS.md'; then
+  now_lines="$(git show :docs/STATUS.md | "$PY" loop/lap_audit.py statelines 2>/dev/null)"
+  case "$now_lines" in ''|*[!0-9]*) now_lines=0 ;; esac
+  if [ "$now_lines" -gt 25 ]; then
+    echo "✖ 커밋 거절: STATUS '지금 상태' 가 ${now_lines}줄 (25줄 넘음)"
+    echo "  '지금 상태' 는 덧붙이는 일지가 아니라 고쳐 쓰는 현황판이다 (15줄 이내). 지난 바퀴 이야기는 아래 바퀴 기록에 이미 있다."
+    echo "  넘친 것을 지우지 말고: python3 loop/lap_audit.py tidy .  → docs/STATUS.md 와 docs/archive/STATUS-<오늘>.md 를 같이 git add 해서 다시 커밋"
+    exit 1
+  fi
+fi
+
+"$PY" tools/check_conventions.py --staged --quiet

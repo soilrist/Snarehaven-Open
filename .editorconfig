@@ -1,0 +1,92 @@
+# 코드 모양을 에디터가 자동으로 맞춰 주는 파일 (Rider / VS / VS Code 공통)
+# 규칙 설명은 docs/conventions/CodingStyle.md
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+indent_style = space
+indent_size = 4
+
+[*.{md,json,yaml,yml,asmdef}]
+indent_size = 2
+
+[*.md]
+trim_trailing_whitespace = false
+
+[*.{cpp,h,gd}]
+# C++(Unreal)·GDScript(Godot) 이름 규칙은 `docs/engines/<엔진>.md` 참고 —
+# dotnet_naming_rule 은 .NET(C#) 전용이라 이 파일로 강제할 수 없다.
+
+[*.cs]
+# Unity 프로젝트만 해당. 중괄호는 새 줄 (Allman) — Unity 공식 스타일 가이드 기본값
+csharp_new_line_before_open_brace = all
+csharp_new_line_before_else = true
+csharp_new_line_before_catch = true
+csharp_new_line_before_finally = true
+csharp_prefer_braces = true:warning
+csharp_style_namespace_declarations = block_scoped:warning   # Unity = C# 9, 파일 범위 네임스페이스 불가
+dotnet_sort_system_directives_first = true
+csharp_style_var_when_type_is_apparent = true:suggestion
+dotnet_style_qualification_for_field = false:suggestion
+
+# ── 이름 규칙 (Unity 공식: m_ 멤버 · k_ 상수 · s_ 스태틱) ──
+dotnet_naming_style.pascal.capitalization = pascal_case
+dotnet_naming_style.camel.capitalization = camel_case
+dotnet_naming_style.m_pascal.required_prefix = m_
+dotnet_naming_style.m_pascal.capitalization = pascal_case
+dotnet_naming_style.k_pascal.required_prefix = k_
+dotnet_naming_style.k_pascal.capitalization = pascal_case
+dotnet_naming_style.s_pascal.required_prefix = s_
+dotnet_naming_style.s_pascal.capitalization = pascal_case
+dotnet_naming_style.i_pascal.required_prefix = I
+dotnet_naming_style.i_pascal.capitalization = pascal_case
+
+# 상수: k_PascalCase
+dotnet_naming_symbols.constants.applicable_kinds = field
+dotnet_naming_symbols.constants.applicable_accessibilities = *
+dotnet_naming_symbols.constants.required_modifiers = const
+dotnet_naming_rule.constants_k.symbols = constants
+dotnet_naming_rule.constants_k.style = k_pascal
+dotnet_naming_rule.constants_k.severity = warning
+
+# static 필드: s_PascalCase
+dotnet_naming_symbols.statics.applicable_kinds = field
+dotnet_naming_symbols.statics.applicable_accessibilities = private, protected, internal, private_protected, protected_internal
+dotnet_naming_symbols.statics.required_modifiers = static
+dotnet_naming_rule.statics_s.symbols = statics
+dotnet_naming_rule.statics_s.style = s_pascal
+dotnet_naming_rule.statics_s.severity = warning
+
+# 멤버 필드: m_PascalCase
+dotnet_naming_symbols.members.applicable_kinds = field
+dotnet_naming_symbols.members.applicable_accessibilities = private, protected, internal, private_protected, protected_internal
+dotnet_naming_rule.members_m.symbols = members
+dotnet_naming_rule.members_m.style = m_pascal
+dotnet_naming_rule.members_m.severity = warning
+
+# 인터페이스: I 접두어
+dotnet_naming_symbols.interfaces.applicable_kinds = interface
+dotnet_naming_rule.interfaces_i.symbols = interfaces
+dotnet_naming_rule.interfaces_i.style = i_pascal
+dotnet_naming_rule.interfaces_i.severity = warning
+
+# 타입·메서드·프로퍼티·이벤트: PascalCase
+dotnet_naming_symbols.types_and_members.applicable_kinds = class, struct, interface, enum, property, event, delegate, namespace
+dotnet_naming_rule.types_pascal.symbols = types_and_members
+dotnet_naming_rule.types_pascal.style = pascal
+dotnet_naming_rule.types_pascal.severity = warning
+
+# 메서드: PascalCase — 이벤트 받는 메서드(Player_Died)는 밑줄을 허용해야 해서 '제안' 수준
+dotnet_naming_symbols.methods.applicable_kinds = method
+dotnet_naming_rule.methods_pascal.symbols = methods
+dotnet_naming_rule.methods_pascal.style = pascal
+dotnet_naming_rule.methods_pascal.severity = suggestion
+
+# 매개변수·지역변수: camelCase
+dotnet_naming_symbols.locals.applicable_kinds = parameter, local
+dotnet_naming_rule.locals_camel.symbols = locals
+dotnet_naming_rule.locals_camel.style = camel
+dotnet_naming_rule.locals_camel.severity = suggestion

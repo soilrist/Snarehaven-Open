@@ -1,0 +1,124 @@
+{
+ "source": "world_grid.txt (작은 세계, make_world_grid.py)",
+ "cell_cm": 400.0,
+ "field_cm": 200.0,
+ "origin_cm": [
+  -35200.0,
+  -54400.0
+ ],
+ "zone_size": [
+  176,
+  272
+ ],
+ "coast_size": [
+  353,
+  545
+ ],
+ "zone_codes": {
+  "plains": 1,
+  "snow": 2,
+  "forest": 3,
+  "swamp": 4
+ },
+ "beach_bit": 16,
+ "outposts": [
+  {
+   "id": "frost_camp",
+   "x": 30600,
+   "y": -38200,
+   "starter": false,
+   "boat": true
+  },
+  {
+   "id": "thimble_shop",
+   "x": 4600,
+   "y": -17800,
+   "starter": false,
+   "boat": true
+  },
+  {
+   "id": "gull_harbor",
+   "x": 12600,
+   "y": 29800,
+   "starter": false,
+   "boat": true
+  },
+  {
+   "id": "snowbell_post",
+   "x": 13800,
+   "y": 1800,
+   "starter": true,
+   "boat": true
+  },
+  {
+   "id": "reed_harbor",
+   "x": -19800,
+   "y": -27800,
+   "starter": false,
+   "boat": true
+  },
+  {
+   "id": "otter_docks",
+   "x": -25800,
+   "y": 15800,
+   "starter": false,
+   "boat": true
+  },
+  {
+   "id": "acorn_outpost",
+   "x": -600,
+   "y": -34200,
+   "starter": false,
+   "boat": true
+  },
+  {
+   "id": "minnow_docks",
+   "x": -11800,
+   "y": 16200,
+   "starter": false,
+   "boat": true
+  },
+  {
+   "id": "lakeside_outpost",
+   "x": -19000,
+   "y": 39400,
+   "starter": false,
+   "boat": true
+  },
+  {
+   "id": "haven_outpost",
+   "x": 4600,
+   "y": -7400,
+   "starter": true,
+   "boat": true
+  },
+  {
+   "id": "moss_island",
+   "x": -28600,
+   "y": -3400,
+   "starter": false,
+   "boat": true
+  },
+  {
+   "id": "willow_outpost",
+   "x": -9400,
+   "y": -1000,
+   "starter": true,
+   "boat": true
+  },
+  {
+   "id": "maple_outpost",
+   "x": -1800,
+   "y": 10600,
+   "starter": true,
+   "boat": true
+  },
+  {
+   "id": "fern_harbor",
+   "x": 24200,
+   "y": 43800,
+   "starter": false,
+   "boat": true
+  }
+ ]
+}

@@ -1,0 +1,77 @@
+# ─────────────────────────────────────────────
+# 줄바꿈 통일 (맥·윈도우 섞여도 diff 가 안 깨지게)
+# ─────────────────────────────────────────────
+* text=auto
+
+*.cs      text eol=lf diff=csharp
+*.md      text eol=lf
+*.json    text eol=lf
+*.yaml    text eol=lf
+*.yml     text eol=lf
+*.py      text eol=lf
+*.sh      text eol=lf
+*.shader  text eol=lf
+*.hlsl    text eol=lf
+*.asmdef  text eol=lf
+*.uss     text eol=lf
+*.uxml    text eol=lf
+*.cpp     text eol=lf diff=cpp
+*.h       text eol=lf diff=cpp
+*.gd      text eol=lf
+*.tscn    text eol=lf
+*.tres    text eol=lf
+*.bat     text eol=crlf
+
+# ─────────────────────────────────────────────
+# Unity YAML 파일 (Unity 프로젝트만 해당) — 합칠 때 Unity 전용 병합 도구 사용
+# (Force Text 직렬화 전제: Project Settings > Editor > Asset Serialization = Force Text)
+# ─────────────────────────────────────────────
+*.unity       text eol=lf merge=unityyamlmerge
+*.prefab      text eol=lf merge=unityyamlmerge
+*.asset       text eol=lf merge=unityyamlmerge
+*.mat         text eol=lf merge=unityyamlmerge
+*.anim        text eol=lf merge=unityyamlmerge
+*.controller  text eol=lf merge=unityyamlmerge
+*.overrideController text eol=lf merge=unityyamlmerge
+*.physicMaterial     text eol=lf merge=unityyamlmerge
+*.physicsMaterial2D  text eol=lf merge=unityyamlmerge
+*.playable    text eol=lf merge=unityyamlmerge
+*.mask        text eol=lf merge=unityyamlmerge
+*.spriteatlas text eol=lf merge=unityyamlmerge
+*.spriteatlasv2 text eol=lf merge=unityyamlmerge
+*.meta        text eol=lf merge=unityyamlmerge
+
+# ─────────────────────────────────────────────
+# Git LFS — 큰 바이너리만 (git lfs 가 설치된 컴퓨터에서만 이 블록을 켤 것)
+# 설치 안 된 컴퓨터에서 켜 두면 커밋이 깨진다 → README "설치 프롬프트"가 확인함
+# PNG 는 일부러 뺐다: 픽셀아트는 작고, AI 생성 이미지가 수천 장 쌓이면
+# GitHub LFS 무료 용량(1GB 안팎)을 금방 넘는다. 필요하면 아래 줄 주석 해제.
+# ─────────────────────────────────────────────
+#LFS-BEGIN
+*.psd   filter=lfs diff=lfs merge=lfs -text
+*.psb   filter=lfs diff=lfs merge=lfs -text
+*.tga   filter=lfs diff=lfs merge=lfs -text
+*.tif   filter=lfs diff=lfs merge=lfs -text
+*.tiff  filter=lfs diff=lfs merge=lfs -text
+*.exr   filter=lfs diff=lfs merge=lfs -text
+*.hdr   filter=lfs diff=lfs merge=lfs -text
+*.fbx   filter=lfs diff=lfs merge=lfs -text
+*.obj   filter=lfs diff=lfs merge=lfs -text
+*.blend filter=lfs diff=lfs merge=lfs -text
+*.glb   filter=lfs diff=lfs merge=lfs -text
+*.wav   filter=lfs diff=lfs merge=lfs -text
+*.aif   filter=lfs diff=lfs merge=lfs -text
+*.aiff  filter=lfs diff=lfs merge=lfs -text
+*.ogg   filter=lfs diff=lfs merge=lfs -text
+*.mp3   filter=lfs diff=lfs merge=lfs -text
+*.mp4   filter=lfs diff=lfs merge=lfs -text
+*.mov   filter=lfs diff=lfs merge=lfs -text
+*.ttf   filter=lfs diff=lfs merge=lfs -text
+*.otf   filter=lfs diff=lfs merge=lfs -text
+*.zip   filter=lfs diff=lfs merge=lfs -text
+*.dll   filter=lfs diff=lfs merge=lfs -text
+#*.png  filter=lfs diff=lfs merge=lfs -text
+# Unreal 바이너리 에셋 — 텍스트 diff·머지 불가, LFS 권장 (docs/engines/unreal.md)
+*.uasset filter=lfs diff=lfs merge=lfs -text
+*.umap   filter=lfs diff=lfs merge=lfs -text
+#LFS-END

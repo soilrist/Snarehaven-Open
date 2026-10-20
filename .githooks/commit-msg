@@ -1,0 +1,46 @@
+#!/usr/bin/env bash
+# 커밋 메시지 형식 검사 — 규칙: docs/conventions/GitCommit.md
+# 설치: git config core.hooksPath .githooks  (설치 프롬프트가 해 줌)
+msg_file="$1"
+first_line="$(grep -v '^#' "$msg_file" | sed -n '1p')"
+
+case "$first_line" in
+  "Merge "*|"Revert \""*) exit 0 ;;   # git 이 자동으로 만드는 메시지는 통과
+esac
+
+fail() {
+  echo "✖ 커밋 거절: $1"
+  echo "  지금: $first_line"
+  echo "  모양: 타입(범위): 요약   예) feat(combat): 3연타 추가"
+  echo "  규칙: docs/conventions/GitCommit.md"
+  exit 1
+}
+
+pattern='^(feat|fix|data|art|refactor|perf|test|docs|build|chore|revert|merge)(\([a-z0-9-]+\))?!?: .+$'
+printf '%s\n' "$first_line" | grep -Eq "$pattern" || fail "첫 줄 형식이 틀림"
+
+# 요약 길이는 글자 수로 (한글도 1글자) — python3 있으면 정확히
+if ! command -v python3 >/dev/null 2>&1 && [ -n "${LOOP_LAP:-}" ]; then
+  fail "python3 가 없어 글자 수를 검사할 수 없음 (루프 커밋은 거절)"
+fi
+if command -v python3 >/dev/null 2>&1; then
+  n="$(printf '%s' "$first_line" | python3 -c 'import sys; s=sys.stdin.buffer.read().decode("utf-8","replace"); print(len(s.split(": ",1)[1]) if ": " in s else 0)')"
+  [ "$n" -ge 2 ] && [ "$n" -le 72 ] || fail "요약은 2~72글자 (지금 ${n}글자)"
+  case "$first_line" in *.) fail "요약 끝에 마침표 금지" ;; esac
+fi
+
+# 루프 일꾼 커밋이면 Loop: 꼬리말 필수 (loop.sh 가 LOOP_LAP 을 넘겨 줌)
+if [ -n "${LOOP_LAP:-}" ]; then
+  if ! grep -Eq "^Loop: ${LOOP_LAP}\$" "$msg_file"; then
+    echo "✖ 커밋 거절: 루프 커밋에는 꼬리말 'Loop: ${LOOP_LAP}' 이 정확히 필요"
+    exit 1
+  fi
+  case "$first_line" in
+    feat*|fix*|data*|art*|refactor*|perf*|test*|build*)
+      if ! grep -Eq '^Checks: .+' "$msg_file"; then
+        echo "✖ 커밋 거절: 이 타입의 루프 커밋에는 'Checks: L1 …, L2 …, L3 …' 꼬리말이 필요"
+        exit 1
+      fi ;;
+  esac
+fi
+exit 0
